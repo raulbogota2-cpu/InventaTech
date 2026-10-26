@@ -64,7 +64,7 @@
     display:inline-flex;align-items:center;justify-content:center;gap:8px;
     border-radius:12px;padding:12px 20px;font-weight:600;font-size:.93rem;
     border:1px solid transparent;cursor:pointer;transition:transform .18s,box-shadow .25s,background .25s,border-color .25s;
-    white-space:nowrap;
+    white-space:nowrap;font-family:inherit;
   }
   .btn:active{transform:translateY(1px)}
   .btn-primary{background:var(--grad);color:#04101c;box-shadow:0 12px 30px -12px rgba(46,230,197,.75)}
@@ -72,6 +72,7 @@
   .btn-ghost{border-color:var(--card-brd);background:rgba(255,255,255,.03);color:var(--txt)}
   .btn-ghost:hover{border-color:rgba(255,255,255,.28);background:rgba(255,255,255,.07)}
   .btn-lg{padding:16px 28px;font-size:1rem;border-radius:14px}
+  .btn-block{width:100%}
   .burger{display:none;background:none;border:1px solid var(--card-brd);border-radius:10px;width:42px;height:42px;color:var(--txt);cursor:pointer}
 
   /* ---------- HERO ---------- */
@@ -116,7 +117,7 @@
   .mock-row .info{flex:1;min-width:0}
   .mock-row .info b{display:block;font-size:.8rem;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .mock-row .info small{color:var(--muted);font-size:.68rem;font-family:'JetBrains Mono',monospace}
-  .tag{font-size:.66rem;font-weight:700;padding:4px 9px;border-radius:999px;letter-spacing:.03em}
+  .tag{font-size:.66rem;font-weight:700;padding:4px 9px;border-radius:999px;letter-spacing:.03em;white-space:nowrap}
   .tag.ok{background:rgba(46,230,197,.14);color:var(--accent)}
   .tag.low{background:rgba(255,198,92,.14);color:#ffc65c}
   .tag.out{background:rgba(255,99,132,.14);color:#ff8ba3}
@@ -235,6 +236,106 @@
   .rv{opacity:0;transform:translateY(26px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.3,1)}
   .rv.in{opacity:1;transform:none}
 
+  /* ================= AUTH: LOGIN OVERLAY ================= */
+  .auth-overlay{
+    position:fixed;inset:0;z-index:200;display:none;
+    align-items:center;justify-content:center;padding:22px;
+    background:rgba(4,7,16,.78);backdrop-filter:blur(10px);
+  }
+  .auth-overlay.open{display:flex;animation:fadeIn .22s ease}
+  @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+  .auth-card{
+    position:relative;width:100%;max-width:430px;border-radius:22px;padding:36px 32px 30px;
+    background:linear-gradient(180deg,#0f1730,#0a1022);
+    border:1px solid var(--card-brd);box-shadow:0 40px 90px -30px rgba(0,0,0,.9);
+    animation:popIn .28s cubic-bezier(.2,.8,.3,1);
+  }
+  @keyframes popIn{from{opacity:0;transform:translateY(18px) scale(.97)}to{opacity:1;transform:none}}
+  .auth-card::before{
+    content:"";position:absolute;inset:-1px;border-radius:22px;padding:1px;z-index:-1;
+    background:var(--grad);opacity:.45;
+    -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+    -webkit-mask-composite:xor;mask-composite:exclude;
+  }
+  .auth-close{
+    position:absolute;top:14px;right:14px;width:34px;height:34px;border-radius:10px;
+    border:1px solid var(--card-brd);background:rgba(255,255,255,.03);color:var(--muted);
+    cursor:pointer;display:grid;place-items:center;transition:.2s
+  }
+  .auth-close:hover{color:var(--txt);border-color:rgba(255,255,255,.3)}
+  .auth-head{text-align:center;margin-bottom:26px}
+  .auth-head .logo{justify-content:center;margin-bottom:14px}
+  .auth-head h2{font-size:1.45rem;margin:0 0 8px}
+  .auth-head p{margin:0;color:var(--muted);font-size:.9rem}
+  .field{margin-bottom:16px}
+  .field label{display:block;font-size:.82rem;font-weight:600;color:#c7d2ea;margin-bottom:7px}
+  .input-wrap{position:relative;display:flex;align-items:center}
+  .input-wrap svg.lead-ico{position:absolute;left:14px;width:18px;height:18px;color:var(--muted);pointer-events:none}
+  .field input{
+    width:100%;padding:13px 44px 13px 42px;border-radius:12px;font:inherit;font-size:.94rem;
+    background:rgba(255,255,255,.04);border:1px solid var(--card-brd);color:var(--txt);
+    transition:border-color .2s,box-shadow .2s,background .2s;
+  }
+  .field input::placeholder{color:#61708f}
+  .field input:focus{outline:none;border-color:rgba(79,124,255,.7);background:rgba(79,124,255,.07);box-shadow:0 0 0 4px rgba(79,124,255,.16)}
+  .toggle-pass{
+    position:absolute;right:8px;width:32px;height:32px;border:0;background:none;color:var(--muted);
+    cursor:pointer;border-radius:8px;display:grid;place-items:center
+  }
+  .toggle-pass:hover{color:var(--txt);background:rgba(255,255,255,.06)}
+  .toggle-pass svg{width:18px;height:18px}
+  .auth-row{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:4px 0 20px;font-size:.85rem}
+  .remember{display:flex;align-items:center;gap:8px;color:var(--muted);cursor:pointer;user-select:none}
+  .remember input{width:16px;height:16px;accent-color:#4f7cff;cursor:pointer}
+  .link{color:var(--accent2);font-weight:600}
+  .link:hover{text-decoration:underline}
+  .auth-msg{
+    display:none;font-size:.86rem;padding:11px 14px;border-radius:11px;margin-bottom:16px;
+    border:1px solid rgba(255,99,132,.35);background:rgba(255,99,132,.1);color:#ffb3c2
+  }
+  .auth-msg.show{display:block}
+  .auth-msg.ok{border-color:rgba(46,230,197,.35);background:rgba(46,230,197,.1);color:var(--accent)}
+  .demo-box{
+    margin-top:22px;border:1px dashed rgba(79,124,255,.4);border-radius:12px;padding:14px 16px;
+    background:rgba(79,124,255,.06);font-size:.82rem;color:var(--muted)
+  }
+  .demo-box b{color:var(--txt);display:block;margin-bottom:6px;font-size:.8rem;letter-spacing:.04em;text-transform:uppercase}
+  .demo-box code{font-family:'JetBrains Mono',monospace;color:var(--accent);background:rgba(0,0,0,.35);padding:2px 7px;border-radius:6px;font-size:.8rem}
+
+  /* ================= AUTH: ADMIN PANEL ================= */
+  #adminPanel{display:none}
+  body.auth-admin > header,
+  body.auth-admin > section,
+  body.auth-admin > footer{display:none!important}
+  body.auth-admin > #adminPanel{display:block}
+  .panel-top{
+    position:sticky;top:0;z-index:50;background:rgba(7,11,24,.92);backdrop-filter:blur(14px);
+    border-bottom:1px solid var(--card-brd)
+  }
+  .panel-top .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;height:70px;flex-wrap:wrap}
+  .panel-user{display:flex;align-items:center;gap:14px}
+  .panel-user .who span{font-size:.78rem}
+  .badge{
+    font-size:.66rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;
+    padding:4px 10px;border-radius:999px;background:rgba(46,230,197,.14);color:var(--accent);border:1px solid rgba(46,230,197,.3)
+  }
+  .panel-body{padding:38px 0 80px}
+  .panel-head{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:28px}
+  .panel-head h1{font-size:clamp(1.6rem,3vw,2.1rem);margin:0 0 6px}
+  .panel-head p{margin:0;color:var(--muted);font-size:.92rem}
+  .ptable{border:1px solid var(--card-brd);border-radius:16px;overflow:hidden;background:var(--card)}
+  .ptable table{width:100%;border-collapse:collapse;font-size:.9rem}
+  .ptable th{
+    text-align:left;padding:14px 18px;background:rgba(255,255,255,.03);color:#c7d2ea;
+    font-size:.74rem;text-transform:uppercase;letter-spacing:.09em;font-weight:700;border-bottom:1px solid var(--card-brd)
+  }
+  .ptable td{padding:14px 18px;border-bottom:1px solid rgba(255,255,255,.05);color:#dbe3f5;vertical-align:middle}
+  .ptable tr:last-child td{border-bottom:0}
+  .ptable .sku{font-family:'JetBrains Mono',monospace;color:var(--muted);font-size:.82rem}
+  .ptable .money{font-family:'JetBrains Mono',monospace;text-align:right}
+  .ptable th:last-child,.ptable td:last-child{text-align:right}
+  .table-scroll{overflow-x:auto}
+
   /* ---------- RESPONSIVE ---------- */
   @media (max-width:1024px){
     .hero-grid{grid-template-columns:1fr;gap:46px}
@@ -256,6 +357,7 @@
     .fgrid{grid-template-columns:1fr}
     .final{padding:44px 22px}
     h1{font-size:2rem}
+    .auth-card{padding:30px 22px 24px}
   }
 </style>
 </head>
@@ -277,7 +379,7 @@
       <a href="#faq">FAQ</a>
     </nav>
     <div style="display:flex;gap:10px;align-items:center">
-      <a href="#precios" class="btn btn-ghost" style="display:none" id="loginBtn">Iniciar sesión</a>
+      <button type="button" class="btn btn-ghost" id="loginBtn">Iniciar sesión</button>
       <a href="#demo" class="btn btn-primary">Prueba gratis</a>
       <button class="burger" id="burger" aria-label="Abrir menú">
         <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
@@ -668,6 +770,7 @@
           <li><a href="mailto:hola@inventatech.app">hola@inventatech.app</a></li>
           <li><a href="tel:+5716000000">+57 (1) 600 0000</a></li>
           <li><a href="#faq">Centro de ayuda</a></li>
+          <li><a href="#" id="footerLogin">Acceso al sistema</a></li>
         </ul>
       </div>
     </div>
@@ -682,20 +785,180 @@
   </div>
 </footer>
 
+<!-- ================= LOGIN OVERLAY ================= -->
+<div class="auth-overlay" id="loginOverlay" role="dialog" aria-modal="true" aria-labelledby="loginTitle">
+  <div class="auth-card">
+    <button class="auth-close" id="loginClose" aria-label="Cerrar">
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+    </button>
+
+    <div class="auth-head">
+      <span class="logo">
+        <span class="logo-mark"><svg viewBox="0 0 24 24" fill="none" stroke="#04101c" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg></span>
+        InventaTech
+      </span>
+      <h2 id="loginTitle">Iniciar sesión</h2>
+      <p>Accede al panel de administración de tu inventario</p>
+    </div>
+
+    <div class="auth-msg" id="loginMsg"></div>
+
+    <form id="loginForm" novalidate>
+      <div class="field">
+        <label for="email">Correo electrónico</label>
+        <div class="input-wrap">
+          <svg class="lead-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="3"/><path d="m3 6 9 6 9-6"/></svg>
+          <input type="email" id="email" name="email" placeholder="tu@correo.com" autocomplete="username" required />
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="password">Contraseña</label>
+        <div class="input-wrap">
+          <svg class="lead-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="11" rx="2.5"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+          <input type="password" id="password" name="password" placeholder="••••••••" autocomplete="current-password" required />
+          <button type="button" class="toggle-pass" id="togglePass" aria-label="Mostrar contraseña">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="auth-row">
+        <label class="remember"><input type="checkbox" id="remember" /> Recordarme</label>
+        <a href="#" class="link" id="forgotLink">¿Olvidaste tu contraseña?</a>
+      </div>
+
+      <button type="submit" class="btn btn-primary btn-block btn-lg">Ingresar al panel</button>
+    </form>
+
+    <div class="demo-box">
+      <b>Credenciales de administrador</b>
+      Usuario: <code id="demoUser">admin@inventatech.app</code><br />
+      Contraseña: <code id="demoPass">Admin2026*</code>
+    </div>
+  </div>
+</div>
+
+<!-- ================= ADMIN PANEL ================= -->
+<div id="adminPanel">
+  <div class="panel-top">
+    <div class="wrap">
+      <span class="logo">
+        <span class="logo-mark"><svg viewBox="0 0 24 24" fill="none" stroke="#04101c" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg></span>
+        InventaTech
+        <span class="badge" style="margin-left:6px">Panel admin</span>
+      </span>
+      <div class="panel-user">
+        <div class="who">
+          <span class="avatar" id="panelAvatar">AD</span>
+          <span><b id="panelName">Administrador</b><span id="panelEmail">admin@inventatech.app</span></span>
+        </div>
+        <button type="button" class="btn btn-ghost" id="logoutBtn">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5M21 12H9"/></svg>
+          Cerrar sesión
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel-body">
+    <div class="wrap">
+      <div class="panel-head">
+        <div>
+          <h1>Resumen de inventario</h1>
+          <p>Bienvenido de nuevo. Estos son los datos de hoy en tu tienda principal.</p>
+        </div>
+        <a href="#top" class="btn btn-ghost" id="backToSite">Ver sitio público</a>
+      </div>
+
+      <div class="stats" style="margin-bottom:26px">
+        <div class="stat"><b>$2.480.000</b><span>Ventas de hoy</span></div>
+        <div class="stat"><b>38,4%</b><span>Margen promedio</span></div>
+        <div class="stat"><b>17</b><span>Productos por reponer</span></div>
+        <div class="stat"><b>1.842</b><span>SKUs activos</span></div>
+      </div>
+
+      <div class="ptable">
+        <div class="table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th>Producto</th>
+                <th>SKU</th>
+                <th>Categoría</th>
+                <th>Stock</th>
+                <th>Costo</th>
+                <th>Precio</th>
+                <th>Estado</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>SSD NVMe 1TB — Gen4</td>
+                <td class="sku">SSD-NV1TB</td>
+                <td>Almacenamiento</td>
+                <td>24</td>
+                <td class="money">$210.000</td>
+                <td class="money">$329.000</td>
+                <td><span class="tag ok">OK</span></td>
+              </tr>
+              <tr>
+                <td>Memoria RAM DDR4 8GB</td>
+                <td class="sku">RAM-D48</td>
+                <td>Memorias</td>
+                <td>3</td>
+                <td class="money">$78.000</td>
+                <td class="money">$129.000</td>
+                <td><span class="tag low">Bajo</span></td>
+              </tr>
+              <tr>
+                <td>Cargador USB-C 65W GaN</td>
+                <td class="sku">CAR-G65</td>
+                <td>Cargadores</td>
+                <td>0</td>
+                <td class="money">$52.000</td>
+                <td class="money">$89.000</td>
+                <td><span class="tag out">Agotado</span></td>
+              </tr>
+              <tr>
+                <td>Teclado mecánico RGB TKL</td>
+                <td class="sku">TEC-MRGB</td>
+                <td>Periféricos</td>
+                <td>11</td>
+                <td class="money">$145.000</td>
+                <td class="money">$239.000</td>
+                <td><span class="tag ok">OK</span></td>
+              </tr>
+              <tr>
+                <td>Cable HDMI 2.1 — 2 m</td>
+                <td class="sku">CAB-H21</td>
+                <td>Cables</td>
+                <td>5</td>
+                <td class="money">$18.000</td>
+                <td class="money">$34.000</td>
+                <td><span class="tag low">Bajo</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <p class="micro" style="margin-top:18px">Vista de demostración. Conecta tu backend para operar con datos reales.</p>
+    </div>
+  </div>
+</div>
+
 <script>
-  // header shadow on scroll
+  /* ============ LANDING: interacciones ============ */
   var hdr = document.getElementById('hdr');
   window.addEventListener('scroll', function(){
     hdr.classList.toggle('scrolled', window.scrollY > 12);
   }, {passive:true});
 
-  // mobile menu
   var burger = document.getElementById('burger');
   var navlinks = document.getElementById('navlinks');
   burger.addEventListener('click', function(){ navlinks.classList.toggle('open'); });
   navlinks.addEventListener('click', function(e){ if(e.target.tagName === 'A') navlinks.classList.remove('open'); });
 
-  // reveal on scroll
   var rvs = document.querySelectorAll('.rv');
   if('IntersectionObserver' in window){
     var io = new IntersectionObserver(function(entries){
@@ -711,7 +974,6 @@
     rvs.forEach(function(el){ el.classList.add('in'); });
   }
 
-  // animated counters
   var counters = document.querySelectorAll('[data-count]');
   function animate(el){
     var target = parseInt(el.dataset.count, 10);
@@ -736,7 +998,6 @@
     counters.forEach(function(el){ el.textContent = el.dataset.count + (el.dataset.suffix||''); });
   }
 
-  // FAQ accordion
   document.querySelectorAll('.qa').forEach(function(qa){
     var btn = qa.querySelector('button');
     var ans = qa.querySelector('.ans');
@@ -752,6 +1013,135 @@
       }
     });
   });
+
+  /* ============ AUTENTICACIÓN (demo en el navegador) ============
+     NOTA: estas credenciales viven en el front-end y sirven solo como
+     demostración. Para producción reemplaza esto por un backend con
+     contraseñas cifradas (hash + salt) y sesiones seguras.          */
+  var USERS = [
+    {
+      email: 'admin@inventatech.app',
+      password: 'Admin2026*',
+      name: 'Administrador',
+      role: 'admin'
+    }
+  ];
+
+  var LKEY = 'inventatech_session';
+  var SKEY = 'inventatech_session_tmp';
+
+  function saveSession(user, remember){
+    var data = JSON.stringify({ email:user.email, name:user.name, role:user.role, ts:Date.now() });
+    if(remember){ localStorage.setItem(LKEY, data); sessionStorage.removeItem(SKEY); }
+    else { sessionStorage.setItem(SKEY, data); localStorage.removeItem(LKEY); }
+  }
+  function getSession(){
+    var raw = localStorage.getItem(LKEY) || sessionStorage.getItem(SKEY);
+    try { return raw ? JSON.parse(raw) : null; } catch(e){ return null; }
+  }
+  function clearSession(){
+    localStorage.removeItem(LKEY);
+    sessionStorage.removeItem(SKEY);
+  }
+
+  var overlay = document.getElementById('loginOverlay');
+  var form = document.getElementById('loginForm');
+  var msg = document.getElementById('loginMsg');
+  var emailInput = document.getElementById('email');
+  var passInput = document.getElementById('password');
+  var rememberInput = document.getElementById('remember');
+
+  function openLogin(){
+    msg.classList.remove('show','ok');
+    msg.textContent = '';
+    overlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    setTimeout(function(){ emailInput.focus(); }, 60);
+  }
+  function closeLogin(){
+    overlay.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  function showMsg(text, ok){
+    msg.textContent = text;
+    msg.classList.toggle('ok', !!ok);
+    msg.classList.add('show');
+  }
+
+  function enterPanel(user){
+    document.body.classList.add('auth-admin');
+    document.getElementById('panelName').textContent = user.name;
+    document.getElementById('panelEmail').textContent = user.email;
+    document.getElementById('panelAvatar').textContent = user.name.slice(0,2).toUpperCase();
+    window.scrollTo({top:0, behavior:'auto'});
+  }
+  function exitPanel(){
+    document.body.classList.remove('auth-admin');
+    clearSession();
+    window.scrollTo({top:0, behavior:'auto'});
+  }
+
+  document.getElementById('loginBtn').addEventListener('click', openLogin);
+  document.getElementById('footerLogin').addEventListener('click', function(e){ e.preventDefault(); openLogin(); });
+  document.getElementById('loginClose').addEventListener('click', closeLogin);
+  overlay.addEventListener('click', function(e){ if(e.target === overlay) closeLogin(); });
+  document.addEventListener('keydown', function(e){ if(e.key === 'Escape' && overlay.classList.contains('open')) closeLogin(); });
+
+  document.getElementById('togglePass').addEventListener('click', function(){
+    var isPass = passInput.type === 'password';
+    passInput.type = isPass ? 'text' : 'password';
+    this.style.color = isPass ? '#2ee6c5' : '';
+  });
+
+  document.getElementById('forgotLink').addEventListener('click', function(e){
+    e.preventDefault();
+    showMsg('Demo: el restablecimiento de contraseña requiere backend. Contacta a soporte@inventatech.app', true);
+  });
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    var email = emailInput.value.trim().toLowerCase();
+    var pass = passInput.value;
+
+    if(!email || !pass){ showMsg('Completa el correo y la contraseña.'); return; }
+
+    var user = null;
+    for(var i = 0; i < USERS.length; i++){
+      if(USERS[i].email.toLowerCase() === email && USERS[i].password === pass){ user = USERS[i]; break; }
+    }
+
+    if(!user){
+      showMsg('Credenciales incorrectas. Verifica tu correo y contraseña.');
+      passInput.value = '';
+      passInput.focus();
+      return;
+    }
+
+    showMsg('Acceso correcto. Cargando panel...', true);
+    saveSession(user, rememberInput.checked);
+    setTimeout(function(){
+      closeLogin();
+      form.reset();
+      enterPanel(user);
+    }, 480);
+  });
+
+  document.getElementById('logoutBtn').addEventListener('click', function(){
+    exitPanel();
+    openLogin();
+  });
+
+  document.getElementById('backToSite').addEventListener('click', function(e){
+    e.preventDefault();
+    document.body.classList.remove('auth-admin');
+    setTimeout(function(){ document.getElementById('top').scrollIntoView({behavior:'smooth'}); }, 30);
+  });
+
+  // Si ya hay sesión activa, entra directo al panel
+  (function(){
+    var s = getSession();
+    if(s && s.email){ enterPanel(s); }
+  })();
 </script>
 </body>
 </html>

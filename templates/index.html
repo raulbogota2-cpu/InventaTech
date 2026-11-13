@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>InventaTech — Tienda Especializada en Repuestos y Componentes de Tecnología</title>
+<meta name="description" content="Portal oficial de InventaTech. Venta de componentes de almacenamiento, memorias RAM, periféricos gaming y suministros de mantenimiento técnico." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#070b18;
+    --bg-soft:#0c1224;
+    --card:rgba(255,255,255,.035);
+    --card-brd:rgba(255,255,255,.09);
+    --txt:#eaf0ff;
+    --muted:#93a1c4;
+    --accent:#2ee6c5;
+    --accent2:#4f7cff;
+    --accent3:#9b6bff;
+    --grad:linear-gradient(120deg,#2ee6c5 0%,#4f7cff 55%,#9b6bff 100%);
+    --radius:18px;
+    --max:1180px;
+    --shadow:0 24px 60px -24px rgba(0,0,0,.75);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--txt);
+    font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  a{color:inherit;text-decoration:none}
+  img{max-width:100%;display:block}
+  .wrap{width:100%;max-width:var(--max);margin:0 auto;padding:0 22px}
+  section{position:relative}
+
+  /* ---------- NAV ---------- */
+  header{
+    position:sticky;top:0;z-index:60;
+    backdrop-filter:blur(14px);
+    background:rgba(7,11,24,.72);
+    border-bottom:1px solid transparent;
+    transition:border-color .3s,background .3s;
+  }
+  .nav{display:flex;align-items:center;justify-content:space-between;height:72px}
+  .logo{display:flex;align-items:center;gap:11px;font-weight:800;font-size:1.12rem;letter-spacing:-.02em}
+  .logo-mark{
+    width:36px;height:36px;border-radius:11px;background:var(--grad);
+    display:grid;place-items:center;box-shadow:0 8px 24px -8px rgba(79,124,255,.85);color:#04101c;font-weight:bold;
+  }
+  .nav-links{display:flex;align-items:center;gap:30px;font-size:.92rem;color:var(--muted);font-weight:500}
+  .nav-links a{transition:color .2s}
+  .nav-links a:hover{color:var(--txt)}
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:8px;
+    border-radius:12px;padding:12px 20px;font-weight:600;font-size:.93rem;
+    border:1px solid transparent;cursor:pointer;transition:transform .18s,box-shadow .25s,background .25s;
+    white-space:nowrap;font-family:inherit;
+  }
+  .btn-primary{background:var(--grad);color:#04101c;box-shadow:0 12px 30px -12px rgba(46,230,197,.75)}
+  .btn-primary:hover{box-shadow:0 18px 40px -12px rgba(79,124,255,.85);transform:translateY(-2px)}
+  .btn-ghost{border-color:var(--card-brd);background:rgba(255,255,255,.03);color:var(--txt)}
+  .btn-ghost:hover{border-color:rgba(255,255,255,.28);background:rgba(255,255,255,.07)}
+  .btn-lg{padding:16px 28px;font-size:1rem;border-radius:14px}
+
+  /* ---------- HERO ---------- */
+  .hero{padding:90px 0 100px;overflow:hidden;text-align:center;}
+  .pill{
+    display:inline-flex;align-items:center;gap:9px;font-size:.8rem;font-weight:600;
+    padding:7px 16px;border-radius:999px;border:1px solid var(--card-brd);
+    background:rgba(46,230,197,.07);color:var(--accent);margin-bottom:22px;letter-spacing:.01em;
+  }
+  .dot{width:7px;height:7px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 4px rgba(46,230,197,.18)}
+  h1{font-size:clamp(2.3rem,5vw,3.8rem);line-height:1.08;letter-spacing:-.03em;margin:0 auto 20px;font-weight:800;max-width:900px;}
+  .grad-text{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .lead{font-size:1.1rem;color:var(--muted);max-width:680px;margin:0 auto 36px}
+  .hero-cta{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;}
+
+  /* ---------- SECCIONES ---------- */
+  .sect{padding:80px 0}
+  .eyebrow{font-size:.8rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);margin-bottom:14px}
+  h2{font-size:clamp(1.8rem,3.2vw,2.6rem);line-height:1.14;letter-spacing:-.025em;margin:0 0 16px;font-weight:800}
+  .sub{color:var(--muted);max-width:620px;font-size:1.02rem}
+  .center{text-align:center}
+  .center .sub{margin-left:auto;margin-right:auto}
+
+  .grid{display:grid;gap:22px}
+  .g-4{grid-template-columns:repeat(auto-fit, minmax(240px, 1fr))}
+  .g-3{grid-template-columns:repeat(auto-fit, minmax(300px, 1fr))}
+
+  .card{
+    background:var(--card);border:1px solid var(--card-brd);border-radius:var(--radius);
+    padding:28px;transition:transform .25s,border-color .25s,background .25s;
+  }
+  .card:hover{transform:translateY(-4px);border-color:rgba(79,124,255,.45);background:rgba(255,255,255,.05)}
+  .ico{
+    width:48px;height:48px;border-radius:13px;display:grid;place-items:center;margin-bottom:18px;
+    background:linear-gradient(140deg,rgba(46,230,197,.16),rgba(79,124,255,.16));
+    border:1px solid rgba(79,124,255,.28);color:var(--accent);font-size:1.2rem;
+  }
+  .card h3{margin:0 0 10px;font-size:1.1rem;font-weight:700}
+  .card p{margin:0;color:var(--muted);font-size:.92rem}
+
+  /* CAMPOS OSCUROS Y ELEGANTES (ADIÓS RECTÁNGULOS BLANCOS) */
+  .field input, .field select, input[type="text"], input[type="number"], input[type="password"], select {
+    width: 100%;
+    padding: 12px;
+    border-radius: 12px;
+    font: inherit;
+    font-size: 0.92rem;
+    background-color: #0c1224 !important;
+    color: #eaf0ff !important;
+    border: 1px solid var(--card-brd) !important;
+  }
+  input:focus, select:focus {
+    outline: none;
+    border-color: rgba(79,124,255,0.7) !important;
+    box-shadow: 0 0 0 4px rgba(79,124,255,0.16);
+  }
+  select option {
+    background-color: #0c1224 !important;
+    color: #eaf0ff !important;
+  }
+
+  footer{border-top:1px solid var(--card-brd);padding:40px 0;margin-top:40px;background:#060a15}
+  .fbot{display:flex;justify-content:space-between;align-items:center;gap:16px;color:var(--muted);font-size:.88rem;flex-wrap:wrap;}
+
+  /* ================= AUTH: LOGIN OVERLAY ================= */
+  .auth-overlay{
+    position:fixed;inset:0;z-index:200;display:none;
+    align-items:center;justify-content:center;padding:22px;
+    background:rgba(4,7,16,.82);backdrop-filter:blur(10px);
+  }
+  .auth-overlay.open{display:flex;}
+  .auth-card{
+    position:relative;width:100%;max-width:420px;border-radius:22px;padding:36px 32px;
+    background:linear-gradient(180deg,#0f1730,#0a1022);
+    border:1px solid var(--card-brd);box-shadow:0 40px 90px -30px rgba(0,0,0,.9);
+  }
+  .field{margin-bottom:16px}
+  .field label{display:block;font-size:.82rem;font-weight:600;color:#c7d2ea;margin-bottom:7px}
+
+  /* ================= ADMIN PANEL CONTROL ================= */
+  #adminPanel{display:none}
+  body.auth-admin > header,
+  body.auth-admin > section:not(#adminPanel),
+  body.auth-admin > footer{display:none!important}
+  body.auth-admin > #adminPanel{display:block}
+
+  .panel-top{position:sticky;top:0;z-index:50;background:rgba(7,11,24,.92);backdrop-filter:blur(14px);border-bottom:1px solid var(--card-brd)}
+  .panel-top .wrap{display:flex;align-items:center;justify-content:space-between;height:70px}
+  .ptable{border:1px solid var(--card-brd);border-radius:16px;overflow:hidden;background:var(--card)}
+  .ptable table{width:100%;border-collapse:collapse;font-size:.9rem}
+  .ptable th{text-align:left;padding:14px 18px;background:rgba(255,255,255,.03);color:#c7d2ea;font-size:.74rem;text-transform:uppercase;border-bottom:1px solid var(--card-brd)}
+  .ptable td{padding:14px 18px;border-bottom:1px solid rgba(255,255,255,.05);color:#dbe3f5;vertical-align:middle}
+  .sku{font-family:'JetBrains Mono',monospace;color:var(--muted);font-size:.82rem}
+  .money{font-family:'JetBrains Mono',monospace;text-align:right}
+  .badge{font-size:.66rem;font-weight:800;padding:4px 10px;border-radius:999px;background:rgba(46,230,197,.14);color:var(--accent);}
+  .alert{padding:12px 18px;border-radius:12px;margin-bottom:20px;font-size:.9rem;font-weight:600;}
+  .alert-success{background:rgba(46,230,197,.15);border:1px solid var(--accent);color:var(--accent);}
+  .alert-danger{background:rgba(255,99,132,.15);border:1px solid #ff8ba3;color:#ff8ba3;}
+</style>
+</head>
+<body class="{% if 'usuario' in session %}auth-admin{% endif %}">
+
+<!-- HEADER PÚBLICO INSTITUCIONAL -->
+<header>
+  <div class="wrap nav">
+    <a href="#top" class="logo">
+      <span class="logo-mark">⚡</span>
+      InventaTech
+    </a>
+    <nav class="nav-links">
+      <a href="#catalogo">Especialidades</a>
+      <a href="#sistema">Tecnología de Stock</a>
+      <a href="#garantia">Garantías</a>
+    </nav>
+    <div style="display:flex;gap:10px;align-items:center">
+      <button type="button" class="btn btn-primary" id="loginBtn">Portal Empleados / Acceso</button>
+    </div>
+  </div>
+</header>
+
+<!-- HERO INSTITUCIONAL -->
+<section class="hero" id="top">
+  <div class="wrap">
+    <span class="pill"><span class="dot"></span> Especialistas en Repuestos y Hardware de Tecnología</span>
+    <h1>Componentes de Alta Calidad y <span class="grad-text">Gestión de Stock en Tiempo Real</span></h1>
+    <p class="lead">Soluciones integrales en repuestos informáticos: unidades de almacenamiento de alta velocidad, memorias RAM especializadas, periféricos de rendimiento y suministros de mantenimiento técnico.</p>
+    <div class="hero-cta">
+      <a href="#catalogo" class="btn btn-ghost btn-lg">Explorar Categorías</a>
+      <button type="button" class="btn btn-primary btn-lg" onclick="document.getElementById('loginOverlay').classList.add('open')">Acceso al Sistema Interno</button>
+    </div>
+  </div>
+</section>
+
+<!-- SECCIÓN 1: LÍNEAS DE PRODUCTOS -->
+<section class="sect" id="catalogo" style="background:linear-gradient(180deg,transparent,rgba(79,124,255,.04),transparent)">
+  <div class="wrap">
+    <div class="center" style="margin-bottom:48px">
+      <p class="eyebrow">Nuestro Portafolio</p>
+      <h2>Líneas Principales de Repuestos</h2>
+      <p class="sub">Mantenemos disponibilidad constante de repuestos originales de marcas líderes para ensamble, actualización y servicio técnico.</p>
+    </div>
+    <div class="grid g-4">
+      <div class="card">
+        <div class="ico">💾</div>
+        <h3>Almacenamiento SSD & HDD</h3>
+        <p>Unidades de estado sólido NVMe M.2 Gen4/Gen3, SSD SATA de 2.5" y discos duros de alta capacidad para servidores y estaciones de trabajo.</p>
+      </div>
+      <div class="card">
+        <div class="ico">⚡</div>
+        <h3>Memorias RAM Especializadas</h3>
+        <p>Módulos de alto rendimiento DDR4 y DDR5 para Laptops, PC de escritorio y plataformas de gaming o trabajo pesado.</p>
+      </div>
+      <div class="card">
+        <div class="ico">⌨️</div>
+        <h3>Periféricos & Audio</h3>
+        <p>Teclados mecánicos de alta precisión, mouse inalámbricos para gaming/oficina y micrófonos profesionales de condensador.</p>
+      </div>
+      <div class="card">
+        <div class="ico">🛠️</div>
+        <h3>Suministros de Mantenimiento</h3>
+        <p>Pastas térmicas de alta conductividad (Arctic MX-4, Grizzly), limpia contactos y kits antiestáticos para talleres de servicio técnico.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECCIÓN 2: VENTAJAS DEL SISTEMA -->
+<section class="sect" id="sistema">
+  <div class="wrap">
+    <div class="center" style="margin-bottom:48px">
+      <p class="eyebrow">Infraestructura Tecnológica</p>
+      <h2>Sistematización y Control Automatizado</h2>
+      <p class="sub">Nuestro punto de venta e inventario interno opera bajo un estándar de cero errores de captura de datos.</p>
+    </div>
+    <div class="grid g-3">
+      <div class="card">
+        <h3>1. Registro Guiado Multinivel</h3>
+        <p>Codificación de productos estandarizada por categoría, subtipo y marca, asegurando SKUs automáticos e irrepetibles.</p>
+      </div>
+      <div class="card">
+        <h3>2. Trazabilidad de Salidas</h3>
+        <p>Descuento automático de stock en vivo al momento de efectuar cada venta, evitando discrepancias entre la bodega y el sistema.</p>
+      </div>
+      <div class="card">
+        <h3>3. Auditoría de Operaciones</h3>
+        <p>Historial detallado de ingresos recaudados y registro con marca de tiempo de cada transacción realizada por el personal.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECCIÓN 3: GARANTÍAS -->
+<section class="sect" id="garantia" style="background:linear-gradient(180deg,transparent,rgba(46,230,197,.04),transparent)">
+  <div class="wrap">
+    <div class="center" style="margin-bottom:48px">
+      <p class="eyebrow">Soporte y Respaldo</p>
+      <h2>Políticas de Garantías y RMA</h2>
+      <p class="sub">Cada componente entregado por InventaTech cuenta con trazabilidad por número de serie y respaldo directo de fábrica.</p>
+    </div>
+    <div class="grid g-3">
+      <div class="card">
+        <h3>Garantía Directa en Componentes</h3>
+        <p>Cobertura por defectos de fábrica de 12 meses en unidades de almacenamiento SSD y memorias RAM seleccionadas.</p>
+      </div>
+      <div class="card">
+        <h3>Trazabilidad por SKU y Lote</h3>
+        <p>El sistema interno registra cada código de lote para agilizar los procesos de devolución o revisión técnica express.</p>
+      </div>
+      <div class="card">
+        <h3>Soporte Técnico Especializado</h3>
+        <p>Asesoría en diagnóstico de fallas de hardware y validación de componentes compatibles para reparaciones de taller.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="fbot">
+      <span>© 2026 InventaTech — Sistema Interno de Inventario y Punto de Venta.</span>
+      <a href="#" id="footerLogin" style="color:var(--muted)">Acceso Administrador</a>
+    </div>
+  </div>
+</footer>
+
+<!-- MODAL DE LOGIN -->
+<div class="auth-overlay" id="loginOverlay">
+  <div class="auth-card">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+      <h2 style="margin:0;">Acceso al Sistema</h2>
+      <button onclick="document.getElementById('loginOverlay').classList.remove('open')" style="background:none; border:none; color:var(--txt); cursor:pointer; font-size:1.2rem;">✕</button>
+    </div>
+    <p style="color:var(--muted); font-size:0.85rem; margin-top:-10px; margin-bottom:20px;">Introduce tus credenciales de administrador para ingresar al panel de stock y ventas.</p>
+    <form action="/login" method="POST">
+      <div class="field">
+        <label>Usuario</label>
+        <input type="text" name="username" placeholder="admin" required autocomplete="username" />
+      </div>
+      <div class="field">
+        <label>Contraseña</label>
+        <input type="password" name="password" placeholder="••••••••" required autocomplete="current-password" />
+      </div>
+      <button type="submit" class="btn btn-primary" style="width:100%; height:44px; margin-top:10px;">Ingresar al Panel</button>
+    </form>
+  </div>
+</div>
+
+<!-- ================= PANEL ADMIN (PRIVADO) ================= -->
+<div id="adminPanel">
+  <div class="panel-top">
+    <div class="wrap">
+      <span class="logo"><span class="logo-mark">⚡</span> InventaTech <span class="badge" style="margin-left:10px;">Panel Admin</span></span>
+      <div>
+              <div style="display: flex; align-items: center; gap: 15px;">
+        <span>Usuario: <b>{{ session.get('usuario', 'Admin') }}</b> ({{ session.get('rol') }})</span>
+        
+        <!-- MENÚ DE NAVEGACIÓN -->
+        <div style="display: flex; gap: 8px;">
+            <a href="/" class="btn btn-ghost" style="padding: 6px 12px; font-size: 0.85rem;">Ventas y Stock</a>
+            <a href="/clientes" class="btn btn-ghost" style="padding: 6px 12px; font-size: 0.85rem;">Clientes</a>
+            
+            <!-- BOTÓN EXCLUSIVO PARA ADMIN -->
+            {% if session.get('rol') == 'administrador' %}
+            <a href="/usuarios" class="btn btn-ghost" style="padding: 6px 12px; font-size: 0.85rem; border-color: rgba(79,124,255,0.4); color: #8fb0ff;">Usuarios</a>
+            {% endif %}
+        </div>
+
+        <a href="/logout" class="btn btn-ghost" style="background: rgba(255,99,132,0.1); color: #ff8ba3;">Cerrar sesión</a>
+      </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="padding:40px 0;">
+    <div class="wrap">
+
+      <!-- MENSAJES FLASH -->
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          {% for category, message in messages %}
+            <div class="alert alert-{{ category }}">{{ message }}</div>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
+
+                 <!-- MÓDULO DE REGISTRO E INTERACCIÓN -->
+      <div style="display:grid; grid-template-columns: 2fr 1fr; gap:24px; margin-bottom:40px; align-items:start;">
+        
+        <!-- 1. ASISTENTE GUIADO -->
+        <div class="card">
+         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+    <h3 style="margin:0;">1. Registrar Nuevo Repuesto / Producto</h3>
+    <a href="/clientes" class="btn btn-ghost" style="border-color: rgba(46,230,197,0.4); color: var(--accent);">
+        👥 Ir a Clientes
+    </a>
+</div>
+          <form action="/agregar_producto" method="POST" style="display:grid; grid-template-columns: repeat(3, 1fr); gap:12px;">
+            <div class="field" style="margin-bottom:0;">
+              <label>1. Categoría</label>
+              <select id="selTipo" name="categoria_id" required onchange="actualizarSubtipos()">
+                <option value="">-- Seleccionar --</option>
+                {% for cat in categorias %}
+                <option value="{{ cat.id }}" data-nombre="{{ cat.nombre }}">{{ cat.nombre }}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="field" style="margin-bottom:0;">
+              <label>2. Subtipo</label>
+              <select id="selSubtipo" onchange="actualizarItemsYMarcas()" disabled>
+                <option value="">-- Selecciona --</option>
+              </select>
+            </div>
+            <div class="field" style="margin-bottom:0;">
+              <label>3. Marca</label>
+              <select id="selMarca" onchange="generarValoresAutomaticos()" disabled>
+                <option value="">-- Selecciona --</option>
+              </select>
+            </div>
+            <div class="field" style="margin-bottom:0;">
+              <label>4. Modelo</label>
+              <select id="selItem" onchange="generarValoresAutomaticos()" disabled>
+                <option value="">-- Selecciona --</option>
+              </select>
+            </div>
+            <input type="hidden" name="nombre" id="inputNombreFinal">
+            <div class="field" style="margin-bottom:0;">
+              <label>SKU Automático</label>
+              <input type="text" name="sku" id="inputSku" readonly style="color:var(--accent); font-family:monospace;">
+            </div>
+            <div class="field" style="margin-bottom:0;">
+              <label>Stock Inicial</label>
+              <input type="number" name="stock" value="5" min="1" required>
+            </div>
+            <div class="field" style="margin-bottom:0;">
+              <label>Costo ($ COP)</label>
+              <input type="number" step="any" name="costo" id="inputCosto" required>
+            </div>
+            <div class="field" style="margin-bottom:0;">
+              <label>Precio Venta ($ COP)</label>
+              <input type="number" step="any" name="precio" id="inputPrecio" required>
+            </div>
+            <div style="grid-column: span 3; margin-top: 10px;">
+              <button type="submit" class="btn btn-primary" style="width:100%;">Guardar o Sumar Stock</button>
+            </div>
+          </form>
+        </div>
+
+        <!-- 2. PUNTO DE VENTA -->
+            <!-- 2. PUNTO DE VENTA -->
+        <div class="card" style="border-color: rgba(79,124,255,0.4); background: rgba(79,124,255,0.03);">
+          <h3 style="margin:0 0 16px; color:var(--accent2);">2. Registrar Venta</h3>
+          <form action="/vender_producto" method="POST">
+            
+            <!-- AGREGADO: SELECTOR DE CLIENTE -->
+            <div class="field">
+              <label>Seleccionar Cliente</label>
+              <select name="cliente_id" required>
+                <option value="">-- Buscar cliente --</option>
+                {% for c in clientes %}
+                <option value="{{ c.id_cliente }}">{{ c.nombre }}</option>
+                {% endfor %}
+              </select>
+            </div>
+
+            <div class="field">
+              <label>Seleccionar Producto</label>
+              <select name="producto_id" required>
+                <option value="">-- Buscar en inventario --</option>
+                {% for prod in productos %}
+                <option value="{{ prod.id }}">{{ prod.nombre }} (Stock: {{ prod.stock }})</option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="field">
+              <label>Cantidad a Vender</label>
+              <input type="number" name="cantidad" value="1" min="1" required>
+            </div>
+            <button type="submit" class="btn btn-primary" style="width:100%; background:var(--accent2); color:#fff; height:42px; margin-top:10px;">Confirmar Venta</button>
+          </form>
+        </div>
+
+                     <!-- ========================================== -->
+      <!-- SECCIÓN INFERIOR (TABLA Y BOTÓN)           -->
+      <!-- ========================================== -->
+      
+      <!-- Aquí se cierra el Grid de las dos columnas de arriba -->
+      </div> 
+
+      <!-- TABLA DE INVENTARIO (Ancho completo) -->
+      <div style="margin-bottom: 30px; margin-top: 40px;">
+        <h2 style="font-size: 1.3rem; margin: 0 0 14px;">Existencias en Inventario</h2>
+        <div class="ptable" style="overflow-x: auto;">
+          <table style="width: 100%; border-collapse: collapse; min-width: 800px;">
+            <thead>
+              <tr>
+                <th style="min-width: 200px;">Producto</th>
+                <th>SKU</th>
+                <th>Categoría</th>
+                <th>Stock</th>
+                <th>Costo</th>
+                <th>Precio</th>
+                <th>Estado</th>
+                <th style="text-align:center;">Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for prod in productos %}
+              <tr>
+                <td><b>{{ prod.nombre }}</b></td>
+                <td class="sku">{{ prod.sku }}</td>
+                <td>{{ prod.categoria }}</td>
+                <td><b>{{ prod.stock }}</b></td>
+                <td class="money">${{ "%.0f"|format(prod.costo) }}</td>
+                <td class="money">${{ "%.0f"|format(prod.precio) }}</td>
+                <td>
+                  {% if prod.stock > 5 %}
+                    <span class="badge">OK</span>
+                  {% elif prod.stock > 0 %}
+                    <span class="badge" style="background:rgba(255,198,92,.14); color:#ffc65c;">Bajo</span>
+                  {% else %}
+                    <span class="badge" style="background:rgba(255,99,132,.14); color:#ff8ba3;">Agotado</span>
+                  {% endif %}
+                </td>
+                <td style="text-align:center; white-space: nowrap;">
+                  <button type="button" class="btn btn-ghost" style="padding:6px 10px; font-size:.78rem; border-color:rgba(79,124,255,0.4); color:#8fb0ff; margin-right:4px;" onclick="abrirModalEdicion('{{ prod.id }}', '{{ prod.costo }}', '{{ prod.precio }}', '{{ prod.stock }}')">Editar</button>
+                  <a href="/eliminar/{{ prod.id }}" class="btn btn-ghost" style="padding:6px 10px; font-size:.78rem; color:#ff8ba3;" onclick="return confirm('¿Seguro que deseas eliminar este producto?');">Eliminar</a>
+                </td>
+              </tr>
+              {% else %}
+              <tr><td colspan="8" style="text-align:center; color:var(--muted); padding:20px;">No hay productos registrados todavía.</td></tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- BOTÓN PDF (Centrado y alineado al ancho completo) -->
+      <div style="display: flex; justify-content: center; margin-bottom: 40px;">
+        <a href="/descargar-reporte-pdf" target="_blank" class="btn btn-primary" style="padding: 14px 30px; font-size: 1rem; border-radius: 14px; box-shadow: 0 10px 20px -10px rgba(79,124,255,0.8);">
+            📥 Descargar Reporte PDF Pro
+        </a>
+      </div>
+
+      
+
+      <!-- HISTORIAL DE VENTAS -->
+      <div>
+        <th style="text-align:center;"></th>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+          <div>
+            <h2 style="font-size: 1.3rem; margin: 0;">Historial de Ventas Realizadas</h2>
+            <p style="color: var(--muted); font-size: 0.88rem; margin: 4px 0 0;">Auditoría de salidas de almacén en tiempo real.</p>
+          </div>
+          <div style="background: rgba(46,230,197,0.1); border: 1px solid var(--accent); padding: 8px 16px; border-radius: 12px;">
+            <span style="font-size: 0.75rem; color: var(--muted); display: block;">Total Recaudado</span>
+            <b style="font-size: 1.15rem; color: var(--accent); font-family: 'JetBrains Mono', monospace;">${{ "%.0f"|format(total_ingresos) }} COP</b>
+          </div>
+        </div>
+
+                <div class="ptable">
+          <table>
+            <thead>
+              <tr>
+                <th># Transacción</th>
+                <th>Fecha / Hora</th>
+                <th>Cliente</th>
+                <th>Producto Vendido</th>
+                <th>SKU</th>
+                <th style="text-align: center;">Unidades</th>
+                <th style="text-align: right;">Precio Unit.</th>
+                <th style="text-align: right;">Total</th>
+                <th style="text-align:center;">Factura</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for v in ventas %}
+              <tr>
+                <td class="sku">#V-{{ v.id }}</td>
+                <td style="font-size: 0.82rem; color: var(--muted);">{{ v.fecha.strftime('%Y-%m-%d %H:%M') if v.fecha else 'Reciente' }}</td>
+                <td><b>{{ v.cliente }}</b></td>
+                <td>{{ v.producto }}</td>
+                <td class="sku">{{ v.sku }}</td>
+                <td style="text-align: center;"><span class="badge" style="background: rgba(79,124,255,0.2); color: #8fb0ff;">{{ v.cantidad }} uds</span></td>
+                <td class="money">${{ "%.0f"|format(v.precio_unitario) }}</td>
+                <td class="money" style="color: var(--accent); font-weight: bold;">${{ "%.0f"|format(v.total) }}</td>
+                <td style="text-align:center;">
+                  <!-- BOTÓN PARA VER LA FACTURA -->
+                  <a href="/factura/{{ v.id }}" target="_blank" class="btn btn-ghost" style="padding: 4px 10px; font-size: 0.75rem; border-color: rgba(46,230,197,0.4); color: #2ee6c5;">📄 Ver PDF</a>
+                </td>
+              </tr>
+              {% else %}
+              <tr>
+                <td colspan="9" style="text-align:center; color:var(--muted); padding:20px;">No se han registrado transacciones aún.</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- MODAL PARA EDITAR PRECIO, COSTO Y STOCK -->
+<div class="auth-overlay" id="modalEditar">
+  <div class="auth-card">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+      <h3 style="margin:0;">Actualizar Producto</h3>
+      <button onclick="document.getElementById('modalEditar').classList.remove('open')" style="background:none; border:none; color:var(--txt); cursor:pointer; font-size:1.2rem;">✕</button>
+    </div>
+    <form action="/editar_producto" method="POST">
+      <input type="hidden" name="producto_id" id="edit_id">
+      <div class="field">
+        <label>Costo ($ COP)</label>
+        <input type="number" step="any" name="costo" id="edit_costo" required>
+      </div>
+      <div class="field">
+        <label>Precio Venta ($ COP)</label>
+        <input type="number" step="any" name="precio" id="edit_precio" required>
+      </div>
+      <div class="field">
+        <label>Stock Actual (Unidades)</label>
+        <input type="number" name="stock" id="edit_stock" required>
+      </div>
+      <button type="submit" class="btn btn-primary" style="width:100%; height:44px; margin-top:10px;">Guardar Cambios</button>
+    </form>
+  </div>
+</div>
+
+<script>
+  // Catálogo inteligente multinivel
+  const CATALOGO_ESPECIFICO = {
+    "Almacenamiento": {
+      prefix: "SSD",
+      subtipos: [
+        { nombre: "Discos SSD NVMe M.2", marcas: ["Kingston", "Crucial", "Samsung", "Adata"], items: [{ desc: "SSD NVMe M.2 256GB", costo: 95000, precio: 145000 }, { desc: "SSD NVMe M.2 512GB", costo: 150000, precio: 220000 }, { desc: "SSD NVMe M.2 1TB Gen4", costo: 240000, precio: 350000 }] },
+        { nombre: "Discos SSD SATA 2.5\"", marcas: ["Kingston", "Crucial", "WD Green"], items: [{ desc: "SSD SATA 2.5 240GB", costo: 75000, precio: 120000 }, { desc: "SSD SATA 2.5 480GB", costo: 110000, precio: 170000 }] }
+      ]
+    },
+    "Memorias": {
+      prefix: "RAM",
+      subtipos: [
+        { nombre: "Memoria RAM DDR4", marcas: ["Corsair Vengeance", "Kingston Fury", "Adata XPG"], items: [{ desc: "RAM DDR4 8GB 3200MHz", costo: 75000, precio: 125000 }, { desc: "RAM DDR4 16GB 3200MHz", costo: 140000, precio: 210000 }] },
+        { nombre: "Memoria RAM DDR5", marcas: ["Corsair Vengeance", "Kingston Fury"], items: [{ desc: "RAM DDR5 16GB 5600MHz", costo: 210000, precio: 310000 }] }
+      ]
+    },
+    "Periféricos": {
+      prefix: "PER",
+      subtipos: [
+        { nombre: "Teclados Mecánicos", marcas: ["Redragon", "Logitech G", "Razer"], items: [{ desc: "Teclado Mecánico RGB TKL", costo: 130000, precio: 210000 }] },
+        { nombre: "Mouse Gamer", marcas: ["Logitech G", "Razer", "Redragon"], items: [{ desc: "Mouse Gamer Inalámbrico", costo: 85000, precio: 140000 }] }
+      ]
+    },
+    "Mantenimiento": {
+      prefix: "MNT",
+      subtipos: [
+        { nombre: "Pastas Térmicas", marcas: ["Arctic", "Thermal Grizzly", "Noctua"], items: [{ desc: "Pasta Térmica Arctic MX-4 (4g)", costo: 25000, precio: 45000 }] }
+      ]
+    }
+  };
+
+  function actualizarSubtipos() {
+    const opt = document.getElementById("selTipo").options[document.getElementById("selTipo").selectedIndex];
+    const catNombre = opt.getAttribute("data-nombre") || opt.text;
+    const selSubtipo = document.getElementById("selSubtipo");
+    selSubtipo.innerHTML = '<option value="">-- Selecciona --</option>';
+    
+    if (CATALOGO_ESPECIFICO[catNombre]) {
+      CATALOGO_ESPECIFICO[catNombre].subtipos.forEach((s, idx) => { selSubtipo.innerHTML += `<option value="${idx}">${s.nombre}</option>`; });
+      selSubtipo.disabled = false;
+    } else { selSubtipo.disabled = true; }
+  }
+
+  function actualizarItemsYMarcas() {
+    const opt = document.getElementById("selTipo").options[document.getElementById("selTipo").selectedIndex];
+    const catNombre = opt.getAttribute("data-nombre") || opt.text;
+    const subIdx = document.getElementById("selSubtipo").value;
+    const selMarca = document.getElementById("selMarca");
+    const selItem = document.getElementById("selItem");
+
+    selMarca.innerHTML = '<option value="">-- Selecciona --</option>';
+    selItem.innerHTML = '<option value="">-- Selecciona --</option>';
+
+    if (subIdx !== "" && CATALOGO_ESPECIFICO[catNombre]) {
+      const subObj = CATALOGO_ESPECIFICO[catNombre].subtipos[subIdx];
+      subObj.marcas.forEach(m => selMarca.innerHTML += `<option value="${m}">${m}</option>`);
+      subObj.items.forEach((it, i) => selItem.innerHTML += `<option value="${i}">${it.desc}</option>`);
+      selMarca.disabled = false; selItem.disabled = false;
+    }
+  }
+
+  function generarValoresAutomaticos() {
+    const opt = document.getElementById("selTipo").options[document.getElementById("selTipo").selectedIndex];
+    const catNombre = opt.getAttribute("data-nombre") || opt.text;
+    const subIdx = document.getElementById("selSubtipo").value;
+    const marca = document.getElementById("selMarca").value;
+    const itemIdx = document.getElementById("selItem").value;
+
+    if (subIdx !== "" && marca && itemIdx !== "" && CATALOGO_ESPECIFICO[catNombre]) {
+      const config = CATALOGO_ESPECIFICO[catNombre];
+      const itemObj = config.subtipos[subIdx].items[itemIdx];
+
+      document.getElementById("inputNombreFinal").value = `${itemObj.desc} — ${marca}`;
+      document.getElementById("inputSku").value = `${config.prefix}-${marca.slice(0, 3).toUpperCase()}-${Math.floor(100 + Math.random() * 900)}`;
+      document.getElementById("inputCosto").value = itemObj.costo;
+      document.getElementById("inputPrecio").value = itemObj.precio;
+    }
+  }
+
+  function abrirModalEdicion(id, costo, precio, stock) {
+    document.getElementById('edit_id').value = id;
+    document.getElementById('edit_costo').value = costo;
+    document.getElementById('edit_precio').value = precio;
+    document.getElementById('edit_stock').value = stock;
+    document.getElementById('modalEditar').classList.add('open');
+  }
+
+  // Control del modal de acceso
+  const loginOverlay = document.getElementById('loginOverlay');
+  const loginBtn = document.getElementById('loginBtn');
+  const footerLogin = document.getElementById('footerLogin');
+
+  if (loginBtn) {
+    loginBtn.addEventListener('click', () => { loginOverlay.classList.add('open'); });
+  }
+
+  if (footerLogin) {
+    footerLogin.addEventListener('click', (e) => { e.preventDefault(); loginOverlay.classList.add('open'); });
+  }
+</script>
+</body>
+</html>

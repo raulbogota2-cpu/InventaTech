@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gestión de Usuarios — InventaTech</title>
+<style>
+  body{margin:0;background:#070b18;color:#eaf0ff;font-family:'Inter',system-ui,sans-serif;padding:30px}
+  .wrap{max-width:1180px;margin:0 auto}
+  h1{margin:0 0 6px}
+  .sub{color:#93a1c4;font-size:.92rem;margin-bottom:24px}
+  .card{background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.09);border-radius:16px;padding:24px;margin-bottom:24px}
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+  label{display:block;font-size:.8rem;color:#c7d2ea;margin-bottom:5px;font-weight:600}
+  input, select{width:100%;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,.09);background:#0c1224;color:#eaf0ff;font:inherit}
+  input:focus, select:focus{outline:none;border-color:#4f7cff}
+  .btn{display:inline-block;padding:10px 18px;border-radius:10px;border:none;cursor:pointer;font-weight:600;text-decoration:none;font-size:.9rem;font-family:inherit}
+  .btn-primary{background:linear-gradient(120deg,#2ee6c5,#4f7cff);color:#04101c}
+  .btn-ghost{background:rgba(255,255,255,.05);color:#eaf0ff;border:1px solid rgba(255,255,255,.15)}
+  .btn-danger{background:rgba(255,99,132,.15);color:#ff8ba3;border:1px solid rgba(255,99,132,.3)}
+  table{width:100%;border-collapse:collapse;font-size:.88rem}
+  th{text-align:left;padding:12px;background:rgba(255,255,255,.03);color:#c7d2ea;font-size:.75rem;text-transform:uppercase}
+  td{padding:12px;border-bottom:1px solid rgba(255,255,255,.05)}
+  .alert{padding:12px 18px;border-radius:12px;margin-bottom:16px;font-weight:600;font-size:.9rem}
+  .alert-success{background:rgba(46,230,197,.15);color:#2ee6c5;border:1px solid #2ee6c5}
+  .alert-danger{background:rgba(255,99,132,.15);color:#ff8ba3;border:1px solid #ff8ba3}
+  .top{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px;flex-wrap:wrap;gap:10px}
+  .badge{font-size:.66rem;font-weight:800;padding:4px 10px;border-radius:999px;background:rgba(46,230,197,.14);color:var(--accent)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <div>
+      <h1>Gestión de Usuarios</h1>
+      <p class="sub">Administra quién tiene acceso al sistema y qué rol ocupa.</p>
+    </div>
+    <div class="actions">
+      <a href="/" class="btn btn-ghost">← Volver al panel</a>
+    </div>
+  </div>
+
+  {% with msgs = get_flashed_messages(with_categories=true) %}
+    {% for cat, m in msgs %}
+      <div class="alert alert-{{ cat }}">{{ m }}</div>
+    {% endfor %}
+  {% endwith %}
+
+  <!-- FORM AGREGAR -->
+  <div class="card">
+    <h3 style="margin:0 0 14px;">Registrar nuevo usuario</h3>
+    <form action="/usuarios/agregar" method="POST" class="grid">
+      <div><label>Nombre de Usuario</label><input name="nombre_usuario" required></div>
+      <div><label>Email</label><input type="email" name="email" required></div>
+      <div><label>Contraseña</label><input type="password" name="contrasena" required></div>
+      <div>
+        <label>Rol</label>
+        <select name="rol" required>
+          <option value="vendedor">Vendedor</option>
+          <option value="administrador">Administrador</option>
+        </select>
+      </div>
+      <div>
+        <label>Estado</label>
+        <select name="estado" required>
+          <option value="Activo">Activo</option>
+          <option value="Inactivo">Inactivo</option>
+        </select>
+      </div>
+      <div style="grid-column:span 3; margin-top:10px;"><button class="btn btn-primary" type="submit">Guardar Usuario</button></div>
+    </form>
+  </div>
+
+  <!-- TABLA -->
+  <div class="card">
+    <h3 style="margin:0 0 14px;">Usuarios del sistema</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th><th>Usuario</th><th>Email</th><th>Rol</th><th>Estado</th><th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for u in usuarios %}
+        <tr>
+          <td>{{ u.id_usuario }}</td>
+          <td><b>{{ u.nombre_usuario }}</b></td>
+          <td>{{ u.email }}</td>
+          <td><span class="badge">{{ u.rol }}</span></td>
+          <td>{{ u.estado }}</td>
+          <td>
+            <button class="btn btn-ghost btn-editar" style="padding:5px 10px;font-size:.78rem"
+              data-id="{{ u.id_usuario }}"
+              data-nombre="{{ u.nombre_usuario }}"
+              data-email="{{ u.email }}"
+              data-rol="{{ u.rol }}"
+              data-estado="{{ u.estado }}">
+              Editar
+            </button>
+            <a href="/usuarios/eliminar/{{ u.id_usuario }}" class="btn btn-danger" style="padding:5px 10px;font-size:.78rem"
+               onclick="return confirm('¿Eliminar este usuario?')">Eliminar</a>
+          </td>
+        </tr>
+        {% else %}
+        <tr><td colspan="6" style="text-align:center;color:#93a1c4;padding:20px">Sin usuarios registrados.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- MODAL EDITAR -->
+<div id="modal" style="display:none;position:fixed;inset:0;background:rgba(4,7,16,.85);z-index:100;align-items:center;justify-content:center">
+  <div class="card" style="max-width:520px;width:100%;margin:20px;background:#0f1730">
+    <h3 style="margin:0 0 14px">Editar usuario</h3>
+    <form action="" method="POST" id="formEdit" class="grid">
+      <div style="grid-column:span 3"><label>Nombre de Usuario</label><input name="nombre_usuario" id="e_nombre" required></div>
+      <div style="grid-column:span 3"><label>Email</label><input type="email" name="email" id="e_email" required></div>
+      <div style="grid-column:span 3"><label>Nueva Contraseña (dejar en blanco para mantener la actual)</label><input type="password" name="contrasena" id="e_pass"></div>
+      <div>
+        <label>Rol</label>
+        <select name="rol" id="e_rol" required>
+          <option value="vendedor">Vendedor</option>
+          <option value="administrador">Administrador</option>
+        </select>
+      </div>
+      <div>
+        <label>Estado</label>
+        <select name="estado" id="e_estado" required>
+          <option value="Activo">Activo</option>
+          <option value="Inactivo">Inactivo</option>
+        </select>
+      </div>
+      <div style="grid-column:span 3;display:flex;gap:10px;margin-top:10px">
+        <button type="submit" class="btn btn-primary">Guardar cambios</button>
+        <button type="button" class="btn btn-ghost" onclick="document.getElementById('modal').style.display='none'">Cancelar</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const modal = document.getElementById('modal');
+  const form  = document.getElementById('formEdit');
+  
+  document.querySelectorAll('.btn-editar').forEach(btn => {
+    btn.addEventListener('click', () => {
+      form.action = '/usuarios/editar/' + btn.dataset.id;
+      document.getElementById('e_nombre').value = btn.dataset.nombre;
+      document.getElementById('e_email').value  = btn.dataset.email;
+      document.getElementById('e_pass').value   = ""; // Siempre en blanco por seguridad
+      document.getElementById('e_rol').value    = btn.dataset.rol;
+      document.getElementById('e_estado').value = btn.dataset.estado;
+      modal.style.display = 'flex';
+    });
+  });
+});
+</script>
+</body>
+</html>
